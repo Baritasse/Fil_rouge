@@ -1,53 +1,45 @@
 :root {
     --couleur-accent: #1ed49c;
     --couleur-fond: #041821;
+    --couleur-texte-doux: #aaaaaa;
+    --couleur-bordure: #1a3040;
+    --marge-page: 8%; /* marge gauche/droite du contenu : s'adapte à toutes les largeurs d'écran */
 }
 
-* {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-main {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 40px 60px;
-}
-
-h1 {
-    font-family: 'Yeseva One', serif;
-    font-size: 55px;
-    margin-bottom: 20px;
-}
-
-section p {
-    font-size: 14px;
-    color: #aaaaaa;
-    max-width: 400px;
-}
-
 body {
-    background-color: #041821;
+    background-color: var(--couleur-fond);
     color: white;
     font-family: 'Montserrat', sans-serif;
 }
 
-header{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 40px;
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/* HEADER*/
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 30px;
+    border-bottom: 1px solid var(--couleur-bordure);
 }
 
 .logo {
     font-family: 'Yeseva One', serif;
     text-transform: uppercase;
-    font-size: 35px;
-}
-.reseaux a {
-    color: white;
-    font-size: 35px;
+    font-size: 20px;
+    letter-spacing: 2px;
 }
 
 .reseaux {
@@ -55,18 +47,181 @@ header{
     gap: 15px;
 }
 
+.reseaux a {
+    color: white;
+    font-size: 20px;
+}
+
+.reseaux a:hover,
+.reseaux a:focus-visible {
+    color: var(--couleur-accent);
+}
+
+/*CONTENU */
+main {
+    width: 100%;
+    padding: 40px var(--marge-page);
+}
+
+h1 {
+    font-family: 'Yeseva One', serif;
+    /* Taille fluide : jamais moins de 30px, jamais plus de 55px */
+    font-size: clamp(30px, 6vw, 55px);
+    line-height: 1.15;
+    margin-bottom: 20px;
+}
+
 .accent {
     color: var(--couleur-accent);
 }
 
+section p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--couleur-texte-doux);
+    max-width: 650px;
+    margin-bottom: 30px;
+}
+
+/* MENU CATEGORIES */
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap; /* passe à la ligne au lieu de déborder */
+    justify-content: center; /* menu centré comme sur la maquette */
+    gap: 10px 20px;
+    margin: 20px 0;
+}
+
+nav a {
+    display: inline-block;
+    padding: 4px 10px; /* même padding pour tous -> même hauteur */
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+nav a:hover,
+nav a:focus-visible {
+    color: var(--couleur-accent);
+}
+
+nav a.actif {
+    background-color: var(--couleur-accent);
+    color: var(--couleur-fond);
+}
+
+/*GALERIE */
 .galerie {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
+    gap: 8px;
+    margin-top: 20px;
 }
 
 .galerie img {
     width: 100%;
-    aspect-ratio: 1/1;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
+}
+
+/*FOOTER  */
+footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--couleur-texte-doux);
+    font-size: 11px;
+    line-height: 1.8;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+footer a,
+footer p {
+    color: inherit; 
+    text-decoration: none;
+}
+
+/* TABLETTE*/
+@media (max-width: 768px) {
+    :root {
+        --marge-page: 30px;
+    }
+
+    header {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .reseaux a {
+        font-size: 16px;
+    }
+
+    main {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+
+    /* Tablette : 4 colonnes x 3 lignes = 12 photos */
+    .galerie {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .galerie img:nth-child(n + 13) {
+        display: none;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+    :root {
+        --marge-page: 20px;
+    }
+
+    header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .reseaux a {
+        font-size: 18px;
+    }
+
+    main {
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+
+    /* Les 5 catégories sur une seule ligne */
+    nav ul {
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        gap: 0;
+    }
+
+    nav a {
+        font-size: clamp(8px, 2.6vw, 11px); /* s'adapte à la largeur du téléphone */
+        letter-spacing: 1px;
+        padding: 3px 4px;
+    }
+
+    .galerie {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
+    }
+
+    .galerie img:nth-child(n + 10) {
+        display: none;
+    }
 }
